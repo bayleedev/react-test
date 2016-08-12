@@ -5,7 +5,20 @@ const Container = React.createClass({
   propTypes: {
     pages: React.PropTypes.array.isRequired,
   },
+  getInitialState: function () {
+    return {
+      activePageName: 'rawr',
+    }
+  },
+  handleChangePage: function (title) {
+    this.setState({
+      activePageName: title,
+    })
+  },
   render: function () {
+    const activePage = this.props.pages.find((item) => {
+      return item.title == this.state.activePageName
+    })
     return React.createElement(
       'div',
       {},
@@ -14,26 +27,28 @@ const Container = React.createClass({
         {
           links: this.props.pages.map((item) => {
             return item.title
-          })
+          }),
+          handleClick: this.handleChangePage
         }
       ),
-      this.props.pages.map((item, index) => {
-        return React.createElement(
-          Page,
-          {
-            key: index,
-            title: item.title,
-            content: item.content,
-          }
-        )
-      })
+      React.createElement(
+        Page,
+        {
+          title: activePage.title,
+          content: activePage.content,
+        }
+      )
     )
   }
 })
 
 const Toolbar = React.createClass({
   propTypes: {
-    links: React.PropTypes.array.isRequired
+    handleClick: React.PropTypes.func.isRequired,
+    links: React.PropTypes.array.isRequired,
+  },
+  handleClick: function(evt) {
+    this.props.handleClick(evt.target.innerText)
   },
   render: function() {
     return React.createElement(
@@ -48,7 +63,7 @@ const Toolbar = React.createClass({
             { key: index },
             React.createElement(
               'a',
-              {},
+              { onClick: this.handleClick },
               item
             )
           )
