@@ -7,13 +7,27 @@ const Container = React.createClass({
   },
   getInitialState: function () {
     return {
-      activePageName: 'rawr',
+      activePageName: this.getCurrentPageFromUrl(),
     }
   },
-  handleChangePage: function (title) {
+  getCurrentPageFromUrl () {
+    const data = window.location.hash.slice(1).match(/\/page\/(.*)\//)
+    const pageTitle = data[1]
+    return pageTitle
+  },
+  componentWillMount: function () {
+    window.addEventListener('hashchange', this.handleHashChange, true)
+  },
+  componentWillUnmount: function () {
+    window.removeEventListener('hashchange', this.handleHashChange)
+  },
+  handleHashChange: function () {
     this.setState({
-      activePageName: title,
+      activePageName: this.getCurrentPageFromUrl(),
     })
+  },
+  handleChangePage: function (title) {
+    window.location.hash = '/page/' + title + '/'
   },
   render: function () {
     const activePage = this.props.pages.find((item) => {
