@@ -14,8 +14,6 @@ class Container extends Component {
       pages: props.pages
     }
 
-    this.onHashChange = this.onHashChange.bind(this)
-
   }
 
   static propTypes() {
@@ -24,7 +22,7 @@ class Container extends Component {
 
   getCurrentPageFromUrl() {
     const data = window.location.hash.slice(1).match(/\/page\/(.*)\//)
-    const pageTitle = data ? data[1] : 'rawr'
+    const pageTitle = data ? data[1] : this.pages[0].title
     return pageTitle
   }
 
@@ -36,7 +34,7 @@ class Container extends Component {
     window.removeEventListener('hashchange', this.onHashChange)
   }
 
-  onHashChange() {
+  onHashChange = () => {
     this.setState({
       activePageName: this.getCurrentPageFromUrl,
     })
