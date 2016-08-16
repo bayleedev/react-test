@@ -6,14 +6,11 @@ import Toolbar from './toolbar'
 class Container extends Component {
 
   constructor(props) {
-
     super(props)
-
     this.state = {
       activePageName: this.getCurrentPageFromUrl,
       pages: props.pages
     }
-
   }
 
   static propTypes() {

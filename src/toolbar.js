@@ -3,16 +3,11 @@ import React, { Component } from 'react'
 class Toolbar extends Component {
 
   constructor(props) {
-
     super(props)
-
     this.state = {
       links: props.links,
       onLinkClick: props.onLinkClick
     }
-
-    this.onLinkClick = this.onLinkClick.bind(this)
-
   }
 
   static propTypes() {
@@ -22,7 +17,7 @@ class Toolbar extends Component {
     }
   }
 
-  onLinkClick(evt) {
+  onLinkClick = (evt) => {
     this.state.onLinkClick(evt.target.innerText)
   }
 
